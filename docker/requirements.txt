@@ -1,14 +1,11 @@
 #tensorflow==1.7.0
 #tensorflowjs
 #tensorflow-hub
-
 opencv-python
 matplotlib
 sklearn
 
-# server
 flask
 Pillow
-
-# already implemented detection network
 pyopenssl
+mtcnn
