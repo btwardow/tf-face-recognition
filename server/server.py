@@ -1,9 +1,11 @@
-import detection
+from tensorface import detection
 from PIL import Image
-from flask import Flask, request, Response
+from flask import Flask, request, Response, redirect, url_for
+import json
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
 
 # for CORS
 @app.after_request
@@ -14,8 +16,13 @@ def after_request(response):
     return response
 
 
-@app.route('/detect')
+@app.route('/')
 def index():
+    return redirect(url_for(detect))
+
+
+@app.route('/detect')
+def detect():
     return Response(open('./static/detect.html').read(), mimetype="text/html")
 
 
@@ -33,8 +40,9 @@ def image():
             threshold = float(threshold)
 
         # finally run the image through tensor flow object detection`
-        objects = detection.get_faces(image, threshold)
-        return objects
+        faces = detection.get_faces(image, threshold)
+        print("Result:", faces)
+        return json.dumps(faces)
 
     except Exception as e:
         import traceback
