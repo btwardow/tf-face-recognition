@@ -1,0 +1,17 @@
+.idea/
+conda_venv/
+
+# Rope project settings
+.ropeproject
+
+### Vim ###
+# swap
+.sw[a-p]
+.*.sw[a-p]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
