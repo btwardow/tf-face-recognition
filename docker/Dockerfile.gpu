@@ -10,5 +10,11 @@ RUN pip install --upgrade pip
 COPY requirements.txt /server-requirements.txt
 RUN pip install -r /server-requirements.txt
 
+RUN mkdir /root/pretrained_models
+COPY download.py /root/pretrained_models/
+WORKDIR /root/pretrained_models
+RUN python download.py
+RUN ls -l
+
 WORKDIR /workspace/server/
 CMD ./server.sh
