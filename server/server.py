@@ -18,7 +18,7 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    return redirect(url_for(detect))
+    return redirect(url_for('detect'))
 
 
 @app.route('/detect')
@@ -42,7 +42,7 @@ def image():
         # finally run the image through tensor flow object detection`
         faces = detection.get_faces(image, threshold)
         print("Result:", faces)
-        return json.dumps(faces)
+        return json.dumps([f.__dict__ for f in faces])
 
     except Exception as e:
         import traceback
@@ -52,5 +52,5 @@ def image():
 
 
 if __name__ == '__main__':
-    # app.run(debug=True, host='0.0.0.0', ssl_context='adhoc')
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', ssl_context='adhoc')
+    # app.run(debug=True, host='0.0.0.0')

@@ -3,7 +3,7 @@ REPO := tf-face-recognition
 #VERSION := $(shell git describe)
 VERSION := dev
 
-.PHONY: build push test
+.PHONY: build push
 
 build:
 	docker build -t $(NS)/$(REPO):$(VERSION) .

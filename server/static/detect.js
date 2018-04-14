@@ -10,7 +10,7 @@ v = document.getElementById(sourceVideo);
 
 //for starting events
 let isPlaying = false,
-    gotMetadata = false;
+gotMetadata = false;
 
 //Canvas setup
 
@@ -23,6 +23,11 @@ let drawCanvas = document.createElement('canvas');
 document.body.appendChild(drawCanvas);
 let drawCtx = drawCanvas.getContext("2d");
 
+function uploadScale() {
+    return v.videoWidth > 0 ? uploadWidth / v.videoWidth : 0;
+}
+
+
 //draw boxes and labels on each detected object
 function drawBoxes(objects) {
 
@@ -31,20 +36,24 @@ function drawBoxes(objects) {
 
     //filter out objects that contain a class_name and then draw boxes and labels on each
     objects.forEach(face => {
-        let box = face.box
-        let x = box[0];
-        let y = box[1];
-        let width = box[2];
-        let height = box[3];
+        let scale = uploadScale();
+        let x = face.x / scale;
+        let y = face.y / scale;
+        let width = face.w / scale;
+        let height = face.h / scale;
         //flip the x axis if local video is mirrored
         if (mirror) {
             x = drawCanvas.width - (x + width)
         }
+
         let rand_conf = face.confidence.toFixed(2);
         let title = "" + rand_conf + "";
         if (face.name) title += ' - ' + face.name;
-        drawCtx.fillText(title , x + 5, y + 20);
+        drawCtx.fillText(title , x + 5, y - 5);
         drawCtx.strokeRect(x, y, width, height);
+        // draw eyes
+//        drawCtx.strokeRect(face.keypoints.left_eye[0] / scale, face.keypoints.left_eye[1] / scale, 2, 2);
+//        drawCtx.strokeRect(face.keypoints.right_eye[0] / scale, face.keypoints.right_eye[1] / scale, 2, 2);
     });
 }
 

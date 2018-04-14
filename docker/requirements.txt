@@ -9,3 +9,4 @@ flask
 Pillow
 pyopenssl
 mtcnn
+requests
