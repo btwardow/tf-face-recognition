@@ -1,5 +1,4 @@
 import numpy as np
-from mtcnn.mtcnn import MTCNN
 
 from tensorface.const import PRETREINED_MODEL_DIR
 from tensorface.mtcnn import detect_face, create_mtcnn
