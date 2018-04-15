@@ -11,7 +11,7 @@ class KNN:
     def __init__(self, K=5, dist_threshold=14):
         '''
         Why such dist_threshold value?
-        See notebook: notebooks/experiments with classification.ipynb
+        See notebook: notebooks/experiments_with_classification.ipynb
         :param K:
         :param dist_threshold:
         '''
