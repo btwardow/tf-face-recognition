@@ -9,3 +9,5 @@ flask
 Pillow
 pyopenssl
 requests
+
+jupyter
