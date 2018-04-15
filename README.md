@@ -102,6 +102,13 @@ As a result we see the current status of classification examples:
 
 And from now on, the new person is recognized. For this example it's _CoverGirl_.
 
+### One more example
+
+![](./doc/face_recog_ex1.png)
+
+
+### Running Jupyter Notebook and reproducing analysis
+
 If you are interested about the classification, please check out this [notebook](./notebooks/experiments_with_classification.ipynb) which will explain in details how it works (e.g. threshold for the recognition).
 
 You can run jupyter notebook from the docker, just type:
