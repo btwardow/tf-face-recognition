@@ -11,7 +11,7 @@ face prediction should be easy to update online to add new targets.
 
 ## How to run it?
 
-### Run it right away from pre-build image
+### Run it right away from the pre-build image
 
 Just type:
 
@@ -23,7 +23,7 @@ Then got to [https://localhost:5000/](https://localhost:5000/) or type
 it in your browser to get face detection (without recognition for now).
 
 _Note: HTTPS is required from many modern browsers to transfer video outside the localhost,
-without making some unsafe settings for your browser._
+without making any unsafe settings to your browser._
 
 
 ### Building docker
@@ -44,10 +44,12 @@ make
 docker run --rm -it -p 5000:5000 -v /$(pwd):/workspace btwardow/tf-face-recognition:dev
 ```
 
-With this volumen mapping it's good for development and testing.
+This volume mapping is very convenient for the development and testing purposes.
+
+To use GPU power - there is dedicated [Dockerfile.gpu](./docker/Dockerfile.gpu).
 
 
-## Why making web application for this?
+## Why making a web application for this?
 
 _Everything should be dockerized and easy to reproduce_. This makes things
 interesting even for a toy project from the computer vision area. Why?
