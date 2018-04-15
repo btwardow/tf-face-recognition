@@ -127,9 +127,9 @@ docker run --rm -it -p 8888:8888 btwardow/tf-face-recognition:1.0.0 /run_jupyter
  - [x] model updates directly from the browser
  - [ ] save & clear classification model from the browser
  - [ ] check if detection can be done faster, if so re-implement it (optimize MTCNN for inference?)
- - [ ] try out port it to Trensorflow.js
+ - [ ] try out port it to Trensorflow.js (as skeptical as I am of crunching numbers in JavaScript...)
 
 
 ## Thanks
 
-Many thanks to creators of `facenet` project, which provides pre trained models. Great job!
+Many thanks to creators of `facenet` project, which provides pre trained models for VGGFace2. Great job!
