@@ -1,7 +1,15 @@
-from tensorface import detection
-from PIL import Image
-from flask import Flask, request, Response, redirect, url_for
 import json
+from time import time
+
+from PIL import Image
+from flask import Flask, request, Response
+
+from tensorface import detection
+from tensorface.recognition import recognize, learn_from_examples
+
+# For test examples acquisition
+SAVE_DETECT_FILES = False
+SAVE_TRAIN_FILES = False
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
@@ -18,16 +26,11 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    return redirect(url_for('detect'))
-
-
-@app.route('/detect')
-def detect():
     return Response(open('./static/detect.html').read(), mimetype="text/html")
 
 
-@app.route('/image', methods=['POST'])
-def image():
+@app.route('/detect', methods=['POST'])
+def detect():
     try:
         image_stream = request.files['image']  # get the image
         image = Image.open(image_stream)
@@ -39,10 +42,48 @@ def image():
         else:
             threshold = float(threshold)
 
-        # finally run the image through tensor flow object detection`
-        faces = detection.get_faces(image, threshold)
-        print("Result:", faces)
-        return json.dumps([f.__dict__ for f in faces])
+        faces = recognize(detection.get_faces(image, threshold))
+
+        j = json.dumps([f.data() for f in faces])
+        print("Result:", j)
+
+        # save files
+        if SAVE_DETECT_FILES and len(faces):
+            id = time()
+            with open('test_{}.json'.format(id), 'w') as f:
+                f.write(j)
+
+            image.save('test_{}.png'.format(id))
+            for i, f in enumerate(faces):
+                f.img.save('face_{}_{}.png'.format(id, i))
+
+        return j
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print('POST /detect error: %e' % e)
+        return e
+
+
+@app.route('/train', methods=['POST'])
+def train():
+    try:
+        # image with sprites
+        image_stream = request.files['image']  # get the image
+        image_sprite = Image.open(image_stream)
+
+        # forms data
+        name = request.form.get('name')
+        num = int(request.form.get('num'))
+        size = int(request.form.get('size'))
+
+        # save for debug purposes
+        if SAVE_TRAIN_FILES:
+            image_sprite.save('train_{}_{}_{}.png'.format(name, size, num))
+
+        info = learn_from_examples(name, image_sprite, num, size)
+        return json.dumps([{'name': n, 'train_examples': s} for n, s in info.items()])
 
     except Exception as e:
         import traceback
@@ -52,5 +93,5 @@ def image():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', ssl_context='adhoc')
-    # app.run(debug=True, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0', ssl_context='adhoc')
+    # app.run(host='0.0.0.0')

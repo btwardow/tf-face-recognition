@@ -2,29 +2,85 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Tensor Flow Object Detection from getUserMedia</title>
+    <title>Ral-Time Tensor Flow Face Detection and Recognition</title>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <style>
+        div {
+            position:relative;
+
+        }
         video {
-            position: absolute;
-            top: 0;
-            left: 0;
+            <!--position: absolute;-->
+            position: relative;
+            <!--top: 0;-->
+            <!--left: 0;-->
             z-index: -1;
             /* Mirror the local video */
             transform: scale(-1, 1);            /*For Firefox (& IE) */
             -webkit-transform: scale(-1, 1);     /*for Chrome & Opera (& Safari) */
         }
-        canvas{
+         canvas {
             position: absolute;
             top: 0;
             left: 0;
             z-index:1
         }
+        #exCanvas {
+            position: relative;
+            z-index:1
+        }
     </style>
 </head>
 <body>
-<video id="myVideo" autoplay></video>
+
+<!--<h4>Real-Time Tensorflow Face Recognition</h4>-->
+
+<div id="videoDiv" style="position:">
+ <video id="myVideo" autoplay></video>
+</div>
+
+
+
+
+<div id="captureDiv">
+
+    <button id="buttonCapture">Capture Examples</button>
+
+    <div id="captureInfo" hidden="true">
+        <div>
+            <span id="recAlert" style="color:red">Recording training examples...</span>
+        </div>
+
+        <div id="examplesPic">
+
+            <div>
+                <span>Training examples:</span>
+            </div>
+
+
+            <canvas id="exCanvas" width="1600px" height="160"></canvas>
+        </div>
+
+        <div>
+            <form action="">
+                Person name: <input id="inputName" type="text" name="pname" required>
+                <button id="updateModel" hidden="true">Update Model</button>
+            </form>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<div id="examples" hidden="true">
+
+
+</div>
+
 <script src="/static/local.js"></script>
 <script id="objDetect" src="/static/detect.js" data-source="myVideo" data-mirror="true" data-uploadWidth="640" data-scoreThreshold="0.40"></script>
+
 </body>
 </html>
