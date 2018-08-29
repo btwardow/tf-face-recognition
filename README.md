@@ -48,6 +48,50 @@ This volume mapping is very convenient for the development and testing purposes.
 
 To use GPU power - there is dedicated [Dockerfile.gpu](./docker/Dockerfile.gpu).
 
+### Run it without docker (development)
+
+Running application without docker is useful for development. Below is quick how to for *nix environments.
+
+Creating virtual env (with Conda) and installing requirements:
+
+```bash
+conda create -y -n face_recognition_36 python=3.6
+source activate face_recognition_36
+pip install -r requirements_dev.txt
+```
+
+Downloading pre-build models:
+```bash
+mkdir ~/pretrained_models
+cp docker/download*.py ~/pretrained_models
+cd ~/pretrained_models
+python download.py
+python download_vggace2.py
+```
+
+the `~/pretrained_models` directory should look like that:
+
+```bash
+(face_recognition_36) b.twardowski@172-16-170-27:~/pretrained_models » tree
+.
+├── 20180402-114759
+│   ├── 20180402-114759.pb
+│   ├── model-20180402-114759.ckpt-275.data-00000-of-00001
+│   ├── model-20180402-114759.ckpt-275.index
+│   └── model-20180402-114759.meta
+├── 20180402-114759.zip
+├── det1.npy
+├── det2.npy
+├── det3.npy
+├── download.py
+└── download_vggace2.py
+```
+
+Then, to start a server, go to `./server` directory and type:
+```bash
+PYTHONPATH=".." python server.py
+```
+
 
 ## Why making a web application for this?
 
