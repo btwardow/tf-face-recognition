@@ -4,6 +4,10 @@ from time import time
 from PIL import Image
 from flask import Flask, request, Response
 
+# assuming that script is run from `server` dir
+import sys, os
+sys.path.append(os.path.realpath('..'))
+
 from tensorface import detection
 from tensorface.recognition import recognize, learn_from_examples
 
